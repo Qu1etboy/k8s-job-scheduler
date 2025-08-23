@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sync-data-job
+spec:
+  ttlSecondsAfterFinished: 0
+  template:
+    spec:
+      containers:
+        - name: sync-data-job
+          image: qu1etboy/k8s-jobs-demo:latest
+          command: ['./sync-data-job'] # Override the default CMD
+          # env:
+          #   - name: DATABASE_URL
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: db-secret
+          #         key: url
+          resources:
+            requests:
+              cpu: '1000m'
+              memory: '2Gi'
+            limits:
+              cpu: '2000m'
+              memory: '4Gi'
+      restartPolicy: Never
